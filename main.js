@@ -40,24 +40,25 @@ const pizzas = [
         id: 6,
         precio: 2200,
         ingredientes: ['salsa de tomate', 'muzzarella', 'cheddar', 'panceta', 'huevo frito'],
-    },   
-    
+    },
+
 ];
 
 // CHECKEO INPUT
-const checkId = () =>{
-
+const checkId = () => {
     let valid = false;
     const idValue = input.value.trim();
-    if(isEmpty(idValue)){
-        showError(input,"Slot vacío. Ingrese un número");
-    }else if (!isInputValid(idValue)){
-        showError(input,"Número inválido. Ingrese un número del 1 al 6");
-    }else{
+
+    if (isEmpty(idValue)) {
+        showError(input, "Slot vacío. Por favor ingrese un número");
+    } else if (!isInputValid(idValue)) {
+        showError(input, "Número inválido. Por favor ingrese un número del 1 al 6");
+    } else {
         renderPizza(idValue);
         valid = true;
-        clearError(idValue);
+        clearError(input);
     }
+
     return valid;
 }
 
@@ -68,36 +69,33 @@ const isEmpty = (value) => value === "";
 const isInputValid = (value) => value < 1 || value > 6 ? false : true;
 
 // RENDER PIZZA
-const renderPizza = (value) =>{
-
+const renderPizza = (value) => {
     const h2 = document.querySelector(".nombre");
     const h3 = document.querySelector(".precio");
 
     pizzas.forEach((pizza) => {
-        if(pizza.id == value){
-            h2.textContent = pizza.nombre;
+        if (pizza.id == value) {
+            h2.textContent = `Pizza ${pizza.nombre}`;
             h3.textContent = `$${pizza.precio}`;
         }
     });
-}
+};
 
 // MOSTRAR ERROR
-const showError = (input, mensaje) =>{
-
+const showError = (input, message) => {
     const error = document.querySelector(".small");
     const formField = input.parentElement;
     const h2 = document.querySelector(".nombre");
     const h3 = document.querySelector(".precio");
 
     formField.classList.add('error');
-    error.textContent = mensaje;
+    error.textContent = message;
     h2.textContent = "";
     h3.textContent = "";
 }
 
 // BORRAR ERROR
-const clearError = (input) =>{
-
+const clearError = (input) => {
     const error = document.querySelector('.small');
     const formField = input.parentElement;
 
@@ -106,7 +104,7 @@ const clearError = (input) =>{
 }
 
 // ESCUCHADOR DE EVENTO
-form.addEventListener('submit',(e) => {
+form.addEventListener('submit', (e) => {
     e.preventDefault();
     checkId();
     form.reset();
